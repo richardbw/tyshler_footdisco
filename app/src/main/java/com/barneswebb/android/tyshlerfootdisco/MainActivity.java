@@ -1,21 +1,27 @@
 package com.barneswebb.android.tyshlerfootdisco;
 
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @thanks http://examples.javacodegeeks.com/android/android-mediaplayer-example/
  */
 public class MainActivity extends AppCompatActivity {
+
+    private static final String  TAG            = "footdiscoMain";
 
     private static final int FORWARD_TIME = 2000;
     Boolean IS_BUTTON_PLAY = new Boolean(true);
@@ -27,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private Handler durationHandler = new Handler();
     private SeekBar seekbar;
     private ImageButton playButton;
+    private WebView footwork_blurb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initializeViews();
     }
 
@@ -41,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         duration = (TextView) findViewById(R.id.songDuration);
         seekbar = (SeekBar) findViewById(R.id.seekBar);
         playButton = (ImageButton) findViewById(R.id.media_play);
+        footwork_blurb = (WebView) findViewById(R.id.footwork_blurb);
+
+        footwork_blurb.getSettings().setJavaScriptEnabled(true);
+        footwork_blurb.loadDataWithBaseURL("", readRawHtmlFile("footworkmp3"), "text/html", "UTF-8", ""); //http://stackoverflow.com/a/13741394
+
 
         (findViewById(R.id.media_play)).setTag(IS_BUTTON_PLAY);
 
@@ -71,15 +84,33 @@ public class MainActivity extends AppCompatActivity {
     @Override public void onResume() {
         super.onResume();
 
-        findViewById(R.id.fullscreen_content).setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        //findViewById(R.id.fullscreen_content).setSystemUiVisibility(
+                  //View.SYSTEM_UI_FLAG_LOW_PROFILE
+              //| View.SYSTEM_UI_FLAG_FULLSCREEN
+              //| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+              //| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+              //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+              //| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
     }
+
+    /* Copied from tyshler_training_system\...\MainActivity.java */
+    public String readRawHtmlFile(String rawResId) {
+        Log.d(TAG, "Loading raw resource - id: " + rawResId);
+        try
+        { //ta: http://stackoverflow.com/a/16161277
+            InputStream is = this.getResources().openRawResource(this.getResources().getIdentifier(rawResId, "raw", this.getPackageName()));
+            byte[] buffer = new byte[0];
+            buffer = new byte[is.available()];
+            while (is.read(buffer) != -1);
+            return new String(buffer);
+        }
+        catch (Resources.NotFoundException | IOException e) {
+            Log.e(TAG, e.toString());
+        }
+        return "<err>";
+    }
+
 
     public void play(View view) {
         if ( view.getTag() == IS_BUTTON_PLAY)

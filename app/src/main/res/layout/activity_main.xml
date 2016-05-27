@@ -11,12 +11,18 @@
     tools:context="com.barneswebb.android.tyshlerfootdisco.MainActivity">
 
 
-    <ImageView
+    <WebView
+        android:id="@+id/footwork_blurb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!-- ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/fencing_bout"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" /-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +31,9 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="30dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:background="#FFF"
+        >
         <!-- android:layout_marginTop="30dp" -->
 
         <ImageButton
@@ -67,6 +75,7 @@
         android:layout_alignParentBottom="true"
         android:layout_weight="1"
         android:backgroundTint="@color/colorPrimaryDark"
+        android:background="#FFF"
         android:onClick="forward"/>
 
     <TextView
@@ -77,7 +86,6 @@
         android:text=""
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
+        android:background="#FFF"
         android:layout_alignRight="@id/seekBar" />
-
-
 </RelativeLayout>
