@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.barneswebb.android.tyshlerfootdisco.MainActivity">
+    tools:context="tyshlerfootdisco.MainActivity">
 
 
     <WebView
@@ -33,8 +33,8 @@
         android:layout_marginBottom="30dp"
         android:orientation="horizontal"
         android:background="#FFF"
-        >
-        <!-- android:layout_marginTop="30dp" -->
+        android:layout_marginTop="30dp"
+    >
 
         <ImageButton
             android:id="@+id/media_rew"
@@ -42,8 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:onClick="restart"
-            android:tint="#000"
-            android:src="@android:drawable/ic_media_previous" />
+            android:background="#FFF"
+            android:src="@drawable/blueicons_rewind" />
 
 
         <ImageButton
@@ -52,17 +52,26 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:onClick="play"
-            android:tint="#000"
-            android:src="@android:drawable/ic_media_play" />
+            android:background="#FFF"
+            android:src="@drawable/blueicons_play" />
 
         <ImageButton
+            android:id="@+id/media_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:onClick="play"
+            android:background="#FFF"
+            android:src="@drawable/blueicons_plus" />
+
+        <!-- ImageButton
             android:id="@+id/media_ff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:onClick="forward"
             android:visibility="invisible"
-            android:src="@android:drawable/ic_media_ff" />
+            android:src="@android:drawable/ic_media_ff" / -->
     </LinearLayout>
 
 
@@ -84,8 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text=""
-        android:textColor="#ffffff"
+        android:textColor="#000"
         android:layout_alignParentBottom="true"
         android:background="#FFF"
+        android:textSize="30sp"
         android:layout_alignRight="@id/seekBar" />
 </RelativeLayout>
