@@ -1,16 +1,25 @@
 package com.barneswebb.android.tyshlerfootdisco;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.barneswebb.android.tyshlerfootdisco.trainingrec.MyTrainingRecordActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initializeViews();
     }
 
@@ -52,8 +60,14 @@ public class MainActivity extends AppCompatActivity {
         footwork_blurb = (WebView) findViewById(R.id.footwork_blurb);
 
         footwork_blurb.getSettings().setJavaScriptEnabled(true);
+        footwork_blurb.getSettings().setPluginState(WebSettings.PluginState.ON); //http://stackoverflow.com/a/17784472
+        footwork_blurb.setWebViewClient(new WebViewClient() {
+            @Override //http://inducesmile.com/android/embed-and-play-youtube-video-in-android-webview/
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
         footwork_blurb.loadDataWithBaseURL("", readRawHtmlFile("footworkmp3"), "text/html", "UTF-8", ""); //http://stackoverflow.com/a/13741394
-
 
         (findViewById(R.id.media_play)).setTag(IS_BUTTON_PLAY);
 
@@ -80,6 +94,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case R.id.action_trainingrecord:
+                startActivity(new Intent(this, MyTrainingRecordActivity.class));
+                break;
+            /*case R.id.action_settings:
+                startActivityForResult(new Intent(this, SettingsActivity.class), 1);
+                break;*/
+            case R.id.action_about:
+                aboutDlg();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void aboutDlg()
+    {
+        String verString = "Release: "+ BuildConfig.VERSION_NAME+" ("+BuildConfig.VERSION_CODE+")";
+
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ttslogo_icon)
+                .setTitle("About")
+                .setMessage("(c) 2016 FencingMultimedia.com\n\nDevelopment:\nRichard@Barnes-Webb.com\n"+verString+"\nAndroid API ver: "+android.os.Build.VERSION.SDK_INT)
+                .setNeutralButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();  } })
+                        .show();
+    }
+
 
     @Override public void onResume() {
         super.onResume();
@@ -115,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     public void play(View view) {
         if ( view.getTag() == IS_BUTTON_PLAY)
         {
-            playButton.setImageResource(android.R.drawable.ic_media_pause);
+            playButton.setImageResource(R.drawable.blueicons_pause);
             playButton.setTag(IS_BUTTON_PAUSE);
 
             mediaPlayer.start();
@@ -123,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             seekbar.setProgress((int) timeElapsed);
             durationHandler.postDelayed(updateSeekBarTime, 100);
         } else {
-            playButton.setImageResource(android.R.drawable.ic_media_play);
+            playButton.setImageResource(R.drawable.blueicons_play);
             playButton.setTag(IS_BUTTON_PLAY);
 
             mediaPlayer.pause();
