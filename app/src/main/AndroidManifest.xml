@@ -3,6 +3,7 @@
     package="com.barneswebb.android.tyshlerfootdisco">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,12 @@
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -42,4 +48,5 @@
 
 <!--
  http://stackoverflow.com/a/17784472 : android:hardwareAccelerated="true" - for youtube
+ http://stackoverflow.com/a/9467875  : android:launchMode="singleInstance" - for only one app instance
 -->

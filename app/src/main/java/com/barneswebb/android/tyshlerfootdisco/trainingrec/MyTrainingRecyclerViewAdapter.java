@@ -36,10 +36,9 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.exerciseSession = exerciseList.get(position);
-        holder.mIdView.setText(exerciseList.get(position).id+"");
+        holder.mIdView.setText(         exerciseList.get(position).id+"");
         holder.mDateView.setText(       "Date: "+       exerciseList.get(position).excerzDate);
         holder.mDurationView.setText(   "Duration: " +  exerciseList.get(position).excerzDur);
-        holder.mCompltExView.setText(   "Programme: " + exerciseList.get(position).program);
         holder.mCommentView.setText(exerciseList.get(position).comments);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +63,6 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
         public final TextView mIdView;
         public final TextView mDateView;
         public final TextView mCommentView;
-        public final TextView mCompltExView;
         public final TextView mDurationView;
         public ExerciseSession exerciseSession;
 
@@ -74,7 +72,6 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
             mIdView = (TextView) view.findViewById(R.id.training_rec_id);
             mDateView = (TextView) view.findViewById(R.id.training_rec_date);
             mDurationView = (TextView) view.findViewById(R.id.training_rec_duration);
-            mCompltExView = (TextView) view.findViewById(R.id.training_rec_exercz_cmplt);
             mCommentView = (TextView) view.findViewById(R.id.training_rec_comment);
         }
 

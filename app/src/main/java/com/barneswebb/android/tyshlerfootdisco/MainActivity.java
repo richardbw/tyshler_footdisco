@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +16,22 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.barneswebb.android.tyshlerfootdisco.trainingrec.ExerciseDataOpenHelper;
 import com.barneswebb.android.tyshlerfootdisco.trainingrec.MyTrainingRecordActivity;
+
+import static com.barneswebb.android.tyshlerfootdisco.trainingrec.ExerciseDataOpenHelper.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,35 +50,82 @@ public class MainActivity extends AppCompatActivity {
     private double timeElapsed = 0, finalTime = 0;
     private Handler durationHandler = new Handler();
     private SeekBar seekbar;
-    private ImageButton playButton;
+    private ImageButton rewindButton,playButton, saveButton;
     private WebView footwork_blurb;
+
+    protected static ExerciseDataOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeViews();
+
+        db = new ExerciseDataOpenHelper(this);
     }
 
     public void initializeViews(){
         mediaPlayer = MediaPlayer.create(this, R.raw.footdisco2012mp3);
         finalTime = mediaPlayer.getDuration();
-        duration = (TextView) findViewById(R.id.songDuration);
-        seekbar = (SeekBar) findViewById(R.id.seekBar);
+        duration =      (TextView) findViewById(R.id.songDuration);
+        seekbar =        (SeekBar) findViewById(R.id.seekBar);
+        rewindButton=(ImageButton) findViewById(R.id.media_rew);
         playButton = (ImageButton) findViewById(R.id.media_play);
+        saveButton = (ImageButton) findViewById(R.id.media_save);
         footwork_blurb = (WebView) findViewById(R.id.footwork_blurb);
 
         footwork_blurb.getSettings().setJavaScriptEnabled(true);
         footwork_blurb.getSettings().setPluginState(WebSettings.PluginState.ON); //http://stackoverflow.com/a/17784472
         footwork_blurb.setWebViewClient(new WebViewClient() {
-            @Override //http://inducesmile.com/android/embed-and-play-youtube-video-in-android-webview/
+            @Override
+            //http://inducesmile.com/android/embed-and-play-youtube-video-in-android-webview/
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
         });
-        footwork_blurb.loadDataWithBaseURL("", readRawHtmlFile("footworkmp3"), "text/html", "UTF-8", ""); //http://stackoverflow.com/a/13741394
+        String htmlSrc= (DetectConnection.checkInternetConnection(this))?"footworkmp3":"footworkmp3_nointernet";
+        footwork_blurb.loadDataWithBaseURL("", readRawHtmlFile(htmlSrc), "text/html", "UTF-8", ""); //http://stackoverflow.com/a/13741394
 
-        (findViewById(R.id.media_play)).setTag(IS_BUTTON_PLAY);
+        rewindButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                restart(v);
+            }
+        });
+        playButton.setTag(IS_BUTTON_PLAY);
+
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final Map<String, String> data = new HashMap<String, String>() {{
+                    put(FIELD_NAMES[1], PreferenceManager.getDefaultSharedPreferences(v.getContext()).getString("username", "not_set")); //userName
+                    put(FIELD_NAMES[2], ISO8601Format.format(new Date())); //excerzDate
+                    put(FIELD_NAMES[3], getExcerciseDuration()); //excerzDur
+                    put(FIELD_NAMES[4], TAG); //program
+                }};
+
+                final EditText input = new EditText(v.getContext());
+                (new AlertDialog.Builder(v.getContext()))
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setTitle("Record Your Exercise")
+                    .setMessage("Duration: "+getExcerciseDuration()+"\n\nHow did it go?:")
+                        .setView(input)
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            data.put(FIELD_NAMES[5], input.getText().toString());
+                            db.createExcercise(data);
+                            Toast.makeText(MainActivity.this, "Training record saved.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                        .create()
+                        .show();
+            }
+        });
 
         seekbar.setMax((int) finalTime);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -77,14 +133,8 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) mediaPlayer.seekTo(progress);
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -93,6 +143,18 @@ public class MainActivity extends AppCompatActivity {
                 restart(null);//XXX View not used
             }
         });
+    }
+
+
+
+    public String getExcerciseDuration() {
+        double actuDurat = (mediaPlayer.getCurrentPosition() > 0)?
+                mediaPlayer.getCurrentPosition()
+                :      mediaPlayer.getDuration();
+
+        return String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes((long) actuDurat),
+                TimeUnit.MILLISECONDS.toSeconds((long) actuDurat));
     }
 
     @Override
@@ -168,25 +230,31 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void play(View view) {
-        if ( view.getTag() == IS_BUTTON_PLAY)
-        {
-            playButton.setImageResource(R.drawable.blueicons_pause);
-            playButton.setTag(IS_BUTTON_PAUSE);
-
+        boolean isPlaying = (Boolean)view.getTag();
+        setPlayButton(isPlaying);
+        if ( isPlaying ) {
             mediaPlayer.start();
             timeElapsed = mediaPlayer.getCurrentPosition();
             seekbar.setProgress((int) timeElapsed);
             durationHandler.postDelayed(updateSeekBarTime, 100);
         } else {
+            mediaPlayer.pause();
+        }
+    }
+
+    public void setPlayButton(Boolean isPlaying) {
+        if ( isPlaying ) {
+            playButton.setImageResource(R.drawable.blueicons_pause);
+            playButton.setTag(IS_BUTTON_PAUSE);
+        } else {
             playButton.setImageResource(R.drawable.blueicons_play);
             playButton.setTag(IS_BUTTON_PLAY);
-
-            mediaPlayer.pause();
         }
     }
 
     public void restart(View view) {
         mediaPlayer.seekTo(0);
+        seekbar.setProgress(0);
     }
 
     public void pause(View view) {
@@ -216,4 +284,7 @@ public class MainActivity extends AppCompatActivity {
             durationHandler.postDelayed(this, 100);
         }
     };
+
+
+
 }
