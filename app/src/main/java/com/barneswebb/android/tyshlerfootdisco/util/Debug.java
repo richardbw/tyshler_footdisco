@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 */
 
-package com.barneswebb.android.tyshlerfootdisco;
+package com.barneswebb.android.tyshlerfootdisco.util;
 
 
 
@@ -26,6 +26,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+
+import com.barneswebb.android.tyshlerfootdisco.R;
+
 /**
  * @author rbw
  *

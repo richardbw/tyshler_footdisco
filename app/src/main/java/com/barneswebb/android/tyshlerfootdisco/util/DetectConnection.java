@@ -1,4 +1,4 @@
-package com.barneswebb.android.tyshlerfootdisco;
+package com.barneswebb.android.tyshlerfootdisco.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

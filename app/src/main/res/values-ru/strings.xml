@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Тышлер ног Дискотека</string>
+
+    <string name="action_trainingrecord">Моя подготовка запись…</string>
+    <string name="action_settings">настройки…</string>
+    <string name="action_about">Около</string>
+
+</resources>
