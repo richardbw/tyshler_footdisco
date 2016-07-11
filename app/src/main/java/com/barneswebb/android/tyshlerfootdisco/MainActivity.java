@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -51,13 +52,20 @@ public class MainActivity extends AppCompatActivity {
     private Handler durationHandler = new Handler();
     private SeekBar seekbar;
     private ImageButton rewindButton,playButton, saveButton;
-    private WebView footwork_blurb;
+
 
     protected static ExerciseDataOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Locale.setDefault(new Locale("ru"));
+        getBaseContext().getResources().updateConfiguration(
+                getResources().getConfiguration(),
+                getBaseContext().getResources().getDisplayMetrics()
+        );
+
         setContentView(R.layout.activity_main);
         initializeViews();
 
@@ -72,19 +80,6 @@ public class MainActivity extends AppCompatActivity {
         rewindButton=(ImageButton) findViewById(R.id.media_rew);
         playButton = (ImageButton) findViewById(R.id.media_play);
         saveButton = (ImageButton) findViewById(R.id.media_save);
-        footwork_blurb = (WebView) findViewById(R.id.footwork_blurb);
-
-        footwork_blurb.getSettings().setJavaScriptEnabled(true);
-        footwork_blurb.getSettings().setPluginState(WebSettings.PluginState.ON); //http://stackoverflow.com/a/17784472
-        footwork_blurb.setWebViewClient(new WebViewClient() {
-            @Override
-            //http://inducesmile.com/android/embed-and-play-youtube-video-in-android-webview/
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return false;
-            }
-        });
-        String htmlSrc= (DetectConnection.checkInternetConnection(this))?"footworkmp3":"footworkmp3_nointernet";
-        footwork_blurb.loadDataWithBaseURL("", readRawHtmlFile(htmlSrc), "text/html", "UTF-8", ""); //http://stackoverflow.com/a/13741394
 
         rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -107,17 +102,17 @@ public class MainActivity extends AppCompatActivity {
                 final EditText input = new EditText(v.getContext());
                 (new AlertDialog.Builder(v.getContext()))
                     .setIcon(android.R.drawable.ic_dialog_info)
-                    .setTitle("Record Your Exercise")
-                    .setMessage("Duration: "+getExcerciseDuration()+"\n\nHow did it go?:")
+                    .setTitle(R.string.savedlg_title)
+                    .setMessage(getString(R.string.savedlg_duration)+getExcerciseDuration()+getString(R.string.savedlg_howdiditgo))
                         .setView(input)
-                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.savedlg_savebtn, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             data.put(FIELD_NAMES[5], input.getText().toString());
                             db.createExcercise(data);
-                            Toast.makeText(MainActivity.this, "Training record saved.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.savedlg_savednotific, Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.savedlg_cancelbtn, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
@@ -171,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_trainingrecord:
                 startActivity(new Intent(this, MyTrainingRecordActivity.class));
                 break;
+            case R.id.action_info:
+                startActivity(new Intent(this, ExcerciseInfoActivity.class));
+                break;
             /*case R.id.action_settings:
                 startActivityForResult(new Intent(this, SettingsActivity.class), 1);
                 break;*/
@@ -211,22 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /* Copied from tyshler_training_system\...\MainActivity.java */
-    public String readRawHtmlFile(String rawResId) {
-        Log.d(TAG, "Loading raw resource - id: " + rawResId);
-        try
-        { //ta: http://stackoverflow.com/a/16161277
-            InputStream is = this.getResources().openRawResource(this.getResources().getIdentifier(rawResId, "raw", this.getPackageName()));
-            byte[] buffer = new byte[0];
-            buffer = new byte[is.available()];
-            while (is.read(buffer) != -1);
-            return new String(buffer);
-        }
-        catch (Resources.NotFoundException | IOException e) {
-            Log.e(TAG, e.toString());
-        }
-        return "<err>";
-    }
 
 
     public void play(View view) {

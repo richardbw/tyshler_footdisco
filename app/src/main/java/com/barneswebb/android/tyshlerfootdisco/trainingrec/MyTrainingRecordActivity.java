@@ -17,7 +17,7 @@ public class MyTrainingRecordActivity extends AppCompatActivity implements Train
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mytrainingrecord);
 
-        MyTrainingRecordActivity.this.setTitle("My Training Record");
+        MyTrainingRecordActivity.this.setTitle(getString(R.string.trainingrecord_title));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -25,18 +25,16 @@ public class MyTrainingRecordActivity extends AppCompatActivity implements Train
             public void onClick(View view) {
                 new AlertDialog.Builder(MyTrainingRecordActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Delete Record")
-                        .setMessage("Please confirm that you want to delete all exercise records?\n" +
-                                "(Cannot be undone)")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.trainingrecord_deleteall_title)
+                        .setMessage(getString(R.string.trainingrecord_deleteall_mesg))
+                        .setPositiveButton(R.string.trainingrecord_deleteall_delbtn, new DialogInterface.OnClickListener() {
                             @Override public void onClick(DialogInterface dialog, int which)  {
                                 ExerciseDataOpenHelper db = new ExerciseDataOpenHelper(MyTrainingRecordActivity.this);
                                 db.delAllData();
                                 MyTrainingRecordActivity.this.finish();
                             } })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.trainingrecord_deleteall_cancelbtn, null)
                         .show();
-
             }
                     //db.delAllSMSes();
 

@@ -8,21 +8,17 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="tyshlerfootdisco.MainActivity">
+    tools:context="MainActivity">
 
-
-    <WebView
-        android:id="@+id/footwork_blurb"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-
-    <!-- ImageView
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/fencing_bout"
-        android:layout_alignParentStart="true" /-->
+        android:src="@drawable/fencingschool_co_za"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="false"
+        android:scaleType="fitStart" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +28,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="30dp"
         android:orientation="horizontal"
-        android:background="#FFF"
+        android:background="#000"
         android:layout_marginTop="30dp"
     >
 
@@ -42,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:onClick="restart"
-            android:background="#FFF"
+            android:background="#000"
             android:src="@drawable/blueicons_rewind" />
 
 
@@ -52,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:onClick="play"
-            android:background="#FFF"
+            android:background="#000"
             android:src="@drawable/blueicons_play" />
 
         <ImageButton
@@ -61,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:onClick="play"
-            android:background="#FFF"
+            android:background="#000"
             android:src="@drawable/blueicons_plus" />
 
         <!-- ImageButton
@@ -84,7 +80,7 @@
         android:layout_alignParentBottom="true"
         android:layout_weight="1"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:background="#FFF"
+
         android:onClick="forward"/>
 
     <TextView
@@ -93,9 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text=""
-        android:textColor="#000"
+        android:textColor="#FFF"
         android:layout_alignParentBottom="true"
-        android:background="#FFF"
+        android:background="#000"
         android:textSize="30sp"
         android:layout_alignRight="@id/seekBar" />
 </RelativeLayout>

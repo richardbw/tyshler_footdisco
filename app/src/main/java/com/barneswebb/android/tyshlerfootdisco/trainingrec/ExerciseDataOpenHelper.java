@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.barneswebb.android.tyshlerfootdisco.Debug;
+import com.barneswebb.android.tyshlerfootdisco.util.Debug;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

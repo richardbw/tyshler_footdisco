@@ -7,46 +7,50 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ttslogo_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleInstance"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- TODO activity
+        <!--
+             TODO activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            /-->
+            /
+        -->
         <activity
             android:name=".trainingrec.MyTrainingRecordActivity"
+            android:configChanges="orientation"
             android:label="@string/action_trainingrecord"
             android:parentActivityName=".MainActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            />
-
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ExcerciseInfoActivity"
+            android:label="@string/title_activity_excercise_info"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.barneswebb.android.tyshlerfootdisco.MainActivity" />
+        </activity>
     </application>
 
-
-
-</manifest>
-
-<!--
+</manifest><!--
  http://stackoverflow.com/a/17784472 : android:hardwareAccelerated="true" - for youtube
  http://stackoverflow.com/a/9467875  : android:launchMode="singleInstance" - for only one app instance
 -->

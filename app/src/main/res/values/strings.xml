@@ -1,6 +1,23 @@
 <resources>
     <string name="app_name">Tyshler Foot Disco</string>
+
     <string name="action_trainingrecord">My training record…</string>
+    <string name="action_info">Tips/Training Help…</string>
     <string name="action_settings">Settings…</string>
     <string name="action_about">About</string>
+
+    <string name="trainingrecord_title">My Training Record</string>
+    <string name="trainingrecord_deleteall_title">Delete Records</string>
+    <string name="trainingrecord_deleteall_mesg">Please confirm that you want to delete all exercise records?\n(Cannot be undone)</string>
+    <string name="trainingrecord_deleteall_delbtn">Delete</string>
+    <string name="trainingrecord_deleteall_cancelbtn">Cancel</string>
+
+    <string name="savedlg_title">Record Your Exercise</string>
+    <string name="savedlg_duration">"Duration: "</string>
+    <string name="savedlg_howdiditgo">\n\nHow did it go?:</string>
+    <string name="savedlg_savebtn">Save</string>
+    <string name="savedlg_cancelbtn">Cancel</string>
+    <string name="savedlg_savednotific">Training record saved.</string>
+
+    <string name="title_activity_excercise_info">Training Help</string>
 </resources>
