@@ -1,9 +1,23 @@
 apply plugin: 'com.android.application'
 
+//from: https://developer.android.com/studio/publish/app-signing.html
+def keystorePropertiesFile = rootProject.file("../keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
+
 android {
+    signingConfigs {
+        config {
+            keyAlias            keystoreProperties['keyAlias']
+            keyPassword         keystoreProperties['keyPassword']
+            storeFile      file(keystoreProperties['storeFile'])
+            storePassword       keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "com.barneswebb.android.tyshlerfootdisco"
         minSdkVersion 17
@@ -15,12 +29,17 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+        debug {
+        }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
