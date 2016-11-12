@@ -48,6 +48,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.barneswebb.android.tyshlerfootdisco.MainActivity" />
         </activity>
+        <activity
+            android:name=".AndroidDatabaseManager"
+            android:theme="@style/Theme.AppCompat.Light" />
     </application>
 
 </manifest><!--

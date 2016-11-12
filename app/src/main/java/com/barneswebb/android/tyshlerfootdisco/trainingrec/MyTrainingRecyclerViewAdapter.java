@@ -1,6 +1,7 @@
 package com.barneswebb.android.tyshlerfootdisco.trainingrec;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link ExerciseSession} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingRecyclerViewAdapter.ViewHolder> {
 
@@ -24,6 +24,8 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
     public MyTrainingRecyclerViewAdapter(List<ExerciseSession> items, OnListFragmentInteractionListener listener) {
         exerciseList = items;
         mListener = listener;
+
+        Log.d("ttsMyTrainRecyclerVwAdt", "Loaded ["+items.size()+"] records in adapter");
     }
 
     @Override
@@ -54,6 +56,7 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
 
     @Override
     public int getItemCount() {
+
         return exerciseList.size();
     }
 

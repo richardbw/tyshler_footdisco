@@ -59,14 +59,10 @@ public class TrainingFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
             ExerciseDataOpenHelper db = new ExerciseDataOpenHelper(getActivity());
+
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
             recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(db.getExerciseRowData(), mListener));
         }
         return view;
@@ -79,8 +75,7 @@ public class TrainingFragment extends Fragment {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+            throw new RuntimeException(context.toString()+ " must implement OnListFragmentInteractionListener");
         }
     }
 

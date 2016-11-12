@@ -175,6 +175,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 aboutDlg();
                 break;
+
+            /*case R.id.action_dbedit:
+                startActivity(new Intent(this, AndroidDatabaseManager.class));
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
