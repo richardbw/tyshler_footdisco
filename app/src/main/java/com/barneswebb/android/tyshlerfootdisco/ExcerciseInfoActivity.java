@@ -46,7 +46,7 @@ public class ExcerciseInfoActivity extends AppCompatActivity {
         footwork_blurb = (WebView) findViewById(R.id.footwork_blurb);
 
         footwork_blurb.getSettings().setJavaScriptEnabled(true);
-        footwork_blurb.getSettings().setPluginState(WebSettings.PluginState.ON); //http://stackoverflow.com/a/17784472
+        //rbw20161114 - commented out cause of google request: footwork_blurb.getSettings().setPluginState(WebSettings.PluginState.ON); //http://stackoverflow.com/a/17784472
         footwork_blurb.setWebViewClient(new WebViewClient() {
             @Override
             //http://inducesmile.com/android/embed-and-play-youtube-video-in-android-webview/
@@ -54,7 +54,8 @@ public class ExcerciseInfoActivity extends AppCompatActivity {
                 return false;
             }
         });
-        String htmlSrc= (DetectConnection.checkInternetConnection(this))?"footworkmp3":"footworkmp3_nointernet";
+        //rbw20161114 - commented out cause of google request: String htmlSrc= (DetectConnection.checkInternetConnection(this))?"footworkmp3":"footworkmp3_nointernet";
+        String htmlSrc="footworkmp3_nointernet";
         footwork_blurb.loadDataWithBaseURL("", readRawHtmlFile(htmlSrc), "text/html", "UTF-8", ""); //http://stackoverflow.com/a/13741394
 
     }
