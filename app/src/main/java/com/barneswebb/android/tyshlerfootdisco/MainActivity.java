@@ -3,21 +3,18 @@ package com.barneswebb.android.tyshlerfootdisco;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +24,6 @@ import com.barneswebb.android.tyshlerfootdisco.trainingrec.MyTrainingRecordActiv
 
 import static com.barneswebb.android.tyshlerfootdisco.trainingrec.ExerciseDataOpenHelper.*;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -52,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler durationHandler = new Handler();
     private SeekBar seekbar;
     private ImageButton rewindButton,playButton, saveButton;
+    private ImageView bgImageView;
 
 
     protected static ExerciseDataOpenHelper db;
@@ -80,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         rewindButton=(ImageButton) findViewById(R.id.media_rew);
         playButton = (ImageButton) findViewById(R.id.media_play);
         saveButton = (ImageButton) findViewById(R.id.media_save);
+        bgImageView =  (ImageView) findViewById(R.id.bg_image);
 
         rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -169,16 +166,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_info:
                 startActivity(new Intent(this, ExcerciseInfoActivity.class));
                 break;
-            /*case R.id.action_settings:
-                startActivityForResult(new Intent(this, SettingsActivity.class), 1);
-                break;*/
+            //case R.id.action_settings:
+            //    startActivityForResult(new Intent(this, SettingsActivity.class), 1);
+            //    break;
             case R.id.action_about:
                 aboutDlg();
                 break;
 
-            /*case R.id.action_dbedit:
-                startActivity(new Intent(this, AndroidDatabaseManager.class));
-                break;*/
+            //case R.id.action_dbedit:
+            //    startActivity(new Intent(this, AndroidDatabaseManager.class));
+            //    break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -191,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setIcon(R.drawable.ttslogo_icon)
                 .setTitle("About")
-                .setMessage("(c) 2016 FencingMultimedia.com\n\nDevelopment:\nRichard@Barnes-Webb.com\n"+verString+"\nAndroid API ver: "+android.os.Build.VERSION.SDK_INT)
+                .setMessage("(c) 2017 FencingMultimedia.com\n\nDevelopment:\nRichard@Barnes-Webb.com\n"+verString+"\nAndroid API ver: "+android.os.Build.VERSION.SDK_INT)
                 .setNeutralButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -226,6 +223,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mediaPlayer.pause();
         }
+    }
+
+    public void setBgImage(Uri imgUri) {
+        bgImageView.setImageURI(imgUri);
     }
 
     public void setPlayButton(Boolean isPlaying) {

@@ -12,7 +12,7 @@
         android:orderInCategory="100"
         android:title="@string/action_info"
         app:showAsAction="never" />
-    <!-- TODO item
+    <!-- item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
@@ -22,7 +22,7 @@
         android:orderInCategory="100"
         android:title="@string/action_about"
         app:showAsAction="never" />
-    <!--item
+    <!-- item
         android:id="@+id/action_dbedit"
         android:orderInCategory="100"
         android:title="@string/action_editdb"
