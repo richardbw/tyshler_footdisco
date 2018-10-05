@@ -27,4 +27,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@android:drawable/ic_dialog_email"
+        android:layout_marginLeft="@dimen/fab2_margin"
+        android:layout_marginRight="@dimen/fab2_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

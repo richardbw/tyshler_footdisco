@@ -29,9 +29,7 @@ public class TrainingFragment extends Fragment {
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
-     */
-    public TrainingFragment() {
-    }
+     */public TrainingFragment() {}
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")

@@ -37,11 +37,6 @@ public class ExerciseDataOpenHelper extends SQLiteOpenHelper
 
     public static final SimpleDateFormat ISO8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    static final Map<String, String> map = new HashMap<String, String>() {{
-            put("foo", "bar");
-            put("x", "y");
-    }};
-
 
     public ExerciseDataOpenHelper(Context context)
     {
@@ -63,17 +58,17 @@ public class ExerciseDataOpenHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TRAININGHISTORY_TABLE_NAME);
         Log.i(tag, "Creating new table: " + TRAININGHISTORY_TABLE_NAME);
 
-        String sqlStr = "CREATE TABLE " + TRAININGHISTORY_TABLE_NAME + "          (" ;
+        StringBuilder sqlStr = new StringBuilder("CREATE TABLE " + TRAININGHISTORY_TABLE_NAME + "          (");
         
         for (String f: FIELD_NAMES) {
-            sqlStr += f.equals(PRIMARY_KEY)?
-                " "+PRIMARY_KEY+"   INTEGER PRIMARY KEY AUTOINCREMENT " :
-                "    ,"+f+"         TEXT " ;
+            sqlStr.append(f.equals(PRIMARY_KEY) ?
+                             " " + PRIMARY_KEY + "   INTEGER PRIMARY KEY AUTOINCREMENT " :
+                             "    ," + f + "         TEXT ");
         }
-        sqlStr += ");";
+        sqlStr.append(");");
 
 
-        db.execSQL(sqlStr);
+        db.execSQL(sqlStr.toString());
     }
 
 
@@ -90,7 +85,7 @@ public class ExerciseDataOpenHelper extends SQLiteOpenHelper
     {
         Log.d(tag, "Loading exercise data....");
 
-        ArrayList<ExerciseSession> retArr = new ArrayList();
+        List<ExerciseSession> retArr = new ArrayList();
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cur;
@@ -111,11 +106,9 @@ public class ExerciseDataOpenHelper extends SQLiteOpenHelper
             Debug.bummer(e, context);
             return retArr;
         }
-
-
-        
+      
         cur.moveToFirst();
-        while (cur.isAfterLast() == false) {
+        while ( ! cur.isAfterLast()) {
             retArr.add(
                 new ExerciseSession(
                        cur.getInt(0), //id;
