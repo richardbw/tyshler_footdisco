@@ -8,14 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.barneswebb.android.tyshlerfootdisco.util.DetectConnection;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ExcerciseInfoActivity extends AppCompatActivity {
 
@@ -39,7 +37,7 @@ public class ExcerciseInfoActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
     private void loadHtml() {

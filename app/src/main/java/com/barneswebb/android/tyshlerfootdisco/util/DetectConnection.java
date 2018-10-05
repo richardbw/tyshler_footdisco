@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 
 /**
  * Created by richard.barnes-webb on 2016/06/28.
- * @Thankyou: http://stackoverflow.com/a/17961536 - detect connection
+ * Thankyou: http://stackoverflow.com/a/17961536 - detect connection
  */
 public class DetectConnection
 {

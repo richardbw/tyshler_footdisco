@@ -17,12 +17,12 @@ android {
         }
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.barneswebb.android.tyshlerfootdisco"
-        minSdkVersion 17
-        targetSdkVersion 23
+        minSdkVersion 23
+        targetSdkVersion 27
         versionCode 3
         versionName "1.1r"
         vectorDrawables.useSupportLibrary = true
@@ -41,11 +41,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:support-vector-drawable:25.1.0'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support:design:25.4.0'
+    implementation 'com.android.support:support-v4:25.4.0'
+    implementation 'com.android.support:recyclerview-v7:25.4.0'
+    implementation 'com.android.support:support-vector-drawable:25.4.0'
+    testImplementation 'junit:junit:4.12'
 }

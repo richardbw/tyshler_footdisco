@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @thanks http://examples.javacodegeeks.com/android/android-mediaplayer-example/
+ * thanks http://examples.javacodegeeks.com/android/android-mediaplayer-example/
  */
 public class MainActivity extends AppCompatActivity {
 
